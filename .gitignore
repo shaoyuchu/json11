@@ -1,5 +1,8 @@
 # generated files
-test
+test.out
+**/*.gcno
+**/*.gcda
+**/*.o
 libjson11.a
 json11.pc
 
@@ -10,3 +13,5 @@ CMakeFiles
 CMakeScripts
 cmake_install.cmake
 install_manifest.txt
+
+build/

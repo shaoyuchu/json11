@@ -1,0 +1,17 @@
+# The Makefile for building CppUnit tests
+
+FLAGS = --coverage -O0 -std=c++11
+LIBS = -lcppunit
+OUTPUT = test.out
+SRCS = json11.cpp $(wildcard test/*.cpp)
+OBJS = $(SRCS:.cpp=.o)
+
+test: $(OBJS)
+	g++ $(FLAGS) $^ -o $(OUTPUT) $(LIBS)
+
+clean:
+	rm -f */*.gcno */*.gcda $(OBJS) $(OUTPUT)
+
+%.o: %.cpp
+	g++ $(FLAGS) -c $< -o $@
+
