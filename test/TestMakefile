@@ -1,0 +1,21 @@
+# The Makefile for building CppUnit tests
+
+FLAGS = --coverage -O0 -std=c++11
+LIBS = -lcppunit
+OUTPUT = ./test.out
+SRCS = ../json11.cpp $(wildcard ./*.cpp)
+OBJS = $(SRCS:.cpp=.o)
+
+test: $(OBJS)
+	g++ $(FLAGS) $^ -o $(OUTPUT) $(LIBS)
+
+clean:
+	find . -type f -name '*.gcno' -delete
+	find . -type f -name '*.gcda' -delete
+	find .. -type f -name '*.gcno' -delete
+	find .. -type f -name '*.gcda' -delete
+	rm -f $(OBJS) $(OUTPUT)
+
+%.o: %.cpp
+	g++ $(FLAGS) -c $< -o $@
+
