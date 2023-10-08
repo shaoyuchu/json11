@@ -12,23 +12,25 @@ using namespace json11;
 
 class JsonTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(JsonTest);
-    CPPUNIT_TEST(testNull1);
-    CPPUNIT_TEST(testNull2);
+    CPPUNIT_TEST(testNull);
     CPPUNIT_TEST(testDoubleNumber);
     CPPUNIT_TEST(testIntNumber);
     CPPUNIT_TEST(testBool);
     CPPUNIT_TEST(testString);
+    CPPUNIT_TEST(testArray);
+    CPPUNIT_TEST(testObject);
     CPPUNIT_TEST_SUITE_END();
 
    public:
     JsonTest();
     void setUp();
-    void testNull1();
-    void testNull2();
+    void testNull();
     void testDoubleNumber();
     void testIntNumber();
     void testBool();
     void testString();
+    void testArray();
+    void testObject();
     void tearDown();
 
    private:
@@ -45,6 +47,10 @@ class JsonTest : public CPPUNIT_NS::TestFixture {
     Json* strJson1;
     Json* strJson2;
     Json* strJson3;
+    Json* arrJson1;
+    Json* arrJson2;
+    Json* objJson1;
+    Json* objJson2;
 };
 
 #endif
