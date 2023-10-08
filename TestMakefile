@@ -3,19 +3,16 @@
 FLAGS = --coverage -O0 -std=c++11
 LIBS = -lcppunit
 OUTPUT = ./test.out
-SRCS = ../json11.cpp $(wildcard ./*.cpp)
+SRCS = $(wildcard ./*.cpp)
 OBJS = $(SRCS:.cpp=.o)
+GCNOS = $(wildcard ./*.gcno)
+GCDAS = $(wildcard ./*.gcda)
 
 test: $(OBJS)
 	g++ $(FLAGS) $^ -o $(OUTPUT) $(LIBS)
 
 clean:
-	find . -type f -name '*.gcno' -delete
-	find . -type f -name '*.gcda' -delete
-	find .. -type f -name '*.gcno' -delete
-	find .. -type f -name '*.gcda' -delete
-	rm -f $(OBJS) $(OUTPUT)
+	rm -f $(OBJS) $(OUTPUT) $(GCNOS) $(GCDAS)
 
 %.o: %.cpp
 	g++ $(FLAGS) -c $< -o $@
-

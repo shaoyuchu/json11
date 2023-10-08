@@ -1,5 +1,6 @@
-json11
-------
+# json11
+
+---
 
 json11 is a tiny JSON library for C++11, providing JSON parsing and serialization.
 
@@ -40,3 +41,18 @@ JSON values can have their values queried and inspected:
     std::string str = json[0]["k"].string_value();
 
 For more documentation see json11.hpp.
+
+## Executing the Tests
+
+1. Compile
+   ```{bash}
+   make -f TestMakefile
+   ```
+2. Run the tests
+   ```{bash}
+   ./test.out
+   ```
+3. Show coverage report
+   ```{bash}
+   gcovr
+   ```

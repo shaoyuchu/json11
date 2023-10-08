@@ -3,7 +3,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "../json11.hpp"
+#include "json11.hpp"
 using namespace json11;
 
 class JsonTest : public CPPUNIT_NS::TestFixture {
