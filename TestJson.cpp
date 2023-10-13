@@ -16,6 +16,7 @@ void JsonTest::setUp() {
     this->nullJson2 = new Json(nullptr);
     this->doubleJson05 = new Json(0.5);
     this->doubleJson25 = new Json(2.5);
+    this->doubleJsonInf = new Json(INFINITY);
     this->intJson1 = new Json(1);
     this->intJson5 = new Json(5);
     this->boolJson0 = new Json(false);
@@ -46,6 +47,7 @@ void JsonTest::testNull() {
     CPPUNIT_ASSERT(this->nullJson1->object_items().empty());
     CPPUNIT_ASSERT((*this->nullJson1)[0] == Json());
     CPPUNIT_ASSERT((*this->nullJson1)["key"] == Json());
+    CPPUNIT_ASSERT(this->nullJson1->dump() == "null");
 }
 
 void JsonTest::testDoubleNumber() {
@@ -58,6 +60,9 @@ void JsonTest::testDoubleNumber() {
     CPPUNIT_ASSERT(this->doubleJson05->object_items().empty());
     CPPUNIT_ASSERT((*this->doubleJson05)[0] == Json());
     CPPUNIT_ASSERT((*this->doubleJson05)["key"] == Json());
+    CPPUNIT_ASSERT(this->doubleJson05->dump() == "0.5");
+
+    CPPUNIT_ASSERT(this->doubleJsonInf->dump() == "null");
 }
 
 void JsonTest::testIntNumber() {
@@ -70,6 +75,7 @@ void JsonTest::testIntNumber() {
     CPPUNIT_ASSERT(this->intJson1->object_items().empty());
     CPPUNIT_ASSERT((*this->intJson1)[0] == Json());
     CPPUNIT_ASSERT((*this->intJson1)["key"] == Json());
+    CPPUNIT_ASSERT(this->intJson1->dump() == "1");
 }
 
 void JsonTest::testBool() {
@@ -82,6 +88,7 @@ void JsonTest::testBool() {
     CPPUNIT_ASSERT(this->boolJson0->object_items().empty());
     CPPUNIT_ASSERT((*this->boolJson0)[0] == Json());
     CPPUNIT_ASSERT((*this->boolJson0)["key"] == Json());
+    CPPUNIT_ASSERT(this->boolJson0->dump() == "false");
 }
 
 void JsonTest::testString() {
@@ -94,10 +101,11 @@ void JsonTest::testString() {
     CPPUNIT_ASSERT(this->strJson3->object_items().empty());
     CPPUNIT_ASSERT((*this->strJson3)[0] == Json());
     CPPUNIT_ASSERT((*this->strJson3)["key"] == Json());
+    CPPUNIT_ASSERT(this->strJson3->dump() == "\"Hello world!\"");
 }
 
 void JsonTest::testArray() {
-    CPPUNIT_ASSERT(this->arrJson1->is_array());
+    CPPUNIT_ASSERT(this->arrJson2->is_array());
     CPPUNIT_ASSERT(this->arrJson2->number_value() == 0);
     CPPUNIT_ASSERT(this->arrJson2->int_value() == 0);
     CPPUNIT_ASSERT(this->arrJson2->bool_value() == false);
@@ -106,10 +114,11 @@ void JsonTest::testArray() {
     CPPUNIT_ASSERT(this->arrJson2->object_items().empty());
     CPPUNIT_ASSERT((*this->arrJson2)[0].number_value() == 0.5);
     CPPUNIT_ASSERT((*this->arrJson2)["key"] == Json());
+    CPPUNIT_ASSERT(this->arrJson2->dump() == "[0.5, 2.5, 1, 5]");
 }
 
 void JsonTest::testObject() {
-    CPPUNIT_ASSERT(this->objJson1->is_object());
+    CPPUNIT_ASSERT(this->objJson2->is_object());
     CPPUNIT_ASSERT(this->objJson2->number_value() == 0);
     CPPUNIT_ASSERT(this->objJson2->int_value() == 0);
     CPPUNIT_ASSERT(this->objJson2->bool_value() == false);
@@ -118,6 +127,7 @@ void JsonTest::testObject() {
     CPPUNIT_ASSERT(this->objJson2->object_items().size() == 2);
     CPPUNIT_ASSERT((*this->objJson2)[0] == Json());
     CPPUNIT_ASSERT((*this->objJson2)["1"].int_value() == 1);
+    CPPUNIT_ASSERT(this->objJson2->dump() == "{\"1\": 1, \"5\": 5}");
 }
 
 void JsonTest::tearDown() {
@@ -130,6 +140,7 @@ void JsonTest::tearDown() {
     delete this->nullJson2;
     delete this->doubleJson05;
     delete this->doubleJson25;
+    delete this->doubleJsonInf;
     delete this->intJson1;
     delete this->intJson5;
     delete this->boolJson0;
