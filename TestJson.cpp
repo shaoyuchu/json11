@@ -5,9 +5,7 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(JsonTest);
 
 JsonTest::JsonTest() {
-    string str = string("Hello world!");
-    this->str = str;
-    this->charArr = new char[str.length() + 1];
+    this->charArr = new char[this->str.length() + 1];
     strcpy(this->charArr, str.c_str());
 }
 
@@ -30,8 +28,11 @@ void JsonTest::setUp() {
     this->arrJson2 = new Json(vector<Json>({*(this->doubleJson05), *(this->doubleJson25),
                                             *(this->intJson1), *(this->intJson5)}));
 
-    map<string, Json> obj = {{"0.5", *(this->doubleJson05)},
-                             {"2.5", *(this->doubleJson25)}};
+    map<string, Json> obj = {
+        {"null", *(this->nullJson1)}, {"double", *(this->doubleJson25)},
+        {"int", *(this->intJson1)},   {"string", *(this->strJson1)},
+        {"array", *(this->arrJson1)},
+    };
     this->objJson1 = new Json(obj);
     this->objJson2 =
         new Json(map<string, Json>({{"1", *(this->intJson1)}, {"5", *(this->intJson5)}}));
@@ -129,6 +130,25 @@ void JsonTest::testObject() {
     CPPUNIT_ASSERT((*this->objJson2)[0] == Json());
     CPPUNIT_ASSERT((*this->objJson2)["1"].int_value() == 1);
     CPPUNIT_ASSERT(this->objJson2->dump() == "{\"1\": 1, \"5\": 5}");
+}
+
+void JsonTest::testParse() {
+    string inStr =
+        "{\n"
+        "// comments\n"
+        "\"null\": null, \"double\": 2.5, \"int\": 1, \"string\": "
+        "\"\\\\\\\"\\b\\f\\n\\r\\t\", \"array\": [null, null]\n"
+        "}";
+    string err = "";
+    const char* in = inStr.c_str();
+    CPPUNIT_ASSERT(Json::parse(in, err, json11::COMMENTS) == *(this->objJson1));
+}
+
+void JsonTest::testFailedParse() {
+    string err = "";
+    const char* nullIn = nullptr;
+    CPPUNIT_ASSERT(Json::parse(nullIn, err) == nullptr);
+    CPPUNIT_ASSERT(err == "null input");
 }
 
 void JsonTest::tearDown() {

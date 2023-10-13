@@ -19,6 +19,8 @@ class JsonTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testString);
     CPPUNIT_TEST(testArray);
     CPPUNIT_TEST(testObject);
+    CPPUNIT_TEST(testParse);
+    CPPUNIT_TEST(testFailedParse);
     CPPUNIT_TEST_SUITE_END();
 
    public:
@@ -31,10 +33,12 @@ class JsonTest : public CPPUNIT_NS::TestFixture {
     void testString();
     void testArray();
     void testObject();
+    void testParse();
+    void testFailedParse();
     void tearDown();
 
    private:
-    string str;
+    string str = "Hello world!";
     char* charArr;
     Json* nullJson1;
     Json* nullJson2;
