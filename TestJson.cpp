@@ -21,7 +21,7 @@ void JsonTest::setUp() {
     this->intJson5 = new Json(5);
     this->boolJson0 = new Json(false);
     this->boolJson1 = new Json(true);
-    this->strJson1 = new Json(string(""));
+    this->strJson1 = new Json(string("\\\"\b\f\n\r\t"));
     this->strJson2 = new Json(this->str);
     this->strJson3 = new Json(this->charArr);
 
@@ -101,6 +101,7 @@ void JsonTest::testString() {
     CPPUNIT_ASSERT(this->strJson3->object_items().empty());
     CPPUNIT_ASSERT((*this->strJson3)[0] == Json());
     CPPUNIT_ASSERT((*this->strJson3)["key"] == Json());
+    CPPUNIT_ASSERT(this->strJson1->dump() == "\"\\\\\\\"\\b\\f\\n\\r\\t\"");
     CPPUNIT_ASSERT(this->strJson3->dump() == "\"Hello world!\"");
 }
 
