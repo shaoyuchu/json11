@@ -40,6 +40,10 @@ void JsonTest::setUp() {
 }
 
 void JsonTest::testNull() {
+    const Json::shape expectedShape = {};
+    string err;
+    CPPUNIT_ASSERT(!(this->nullJson1->has_shape(expectedShape, err)));
+    CPPUNIT_ASSERT(err == "expected JSON object, got null");
     CPPUNIT_ASSERT(this->nullJson1->is_null());
     CPPUNIT_ASSERT(this->nullJson1->number_value() == 0.0);
     CPPUNIT_ASSERT(this->nullJson1->int_value() == 0.0);
@@ -127,6 +131,8 @@ void JsonTest::testArray() {
 }
 
 void JsonTest::testObject() {
+    const Json::shape expectedShape = {{"1", Json::NUMBER}, {"5", Json::NUMBER}};
+    string err;
     CPPUNIT_ASSERT(this->objJson2->is_object());
     CPPUNIT_ASSERT(this->objJson2->number_value() == 0);
     CPPUNIT_ASSERT(this->objJson2->int_value() == 0);
@@ -137,6 +143,8 @@ void JsonTest::testObject() {
     CPPUNIT_ASSERT((*this->objJson2)[0] == Json());
     CPPUNIT_ASSERT((*this->objJson2)["1"].int_value() == 1);
     CPPUNIT_ASSERT(this->objJson2->dump() == "{\"1\": 1, \"5\": 5}");
+    CPPUNIT_ASSERT(this->objJson2->has_shape(expectedShape, err));
+    CPPUNIT_ASSERT(err == "");
 }
 
 void JsonTest::testParse() {
