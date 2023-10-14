@@ -163,6 +163,19 @@ void JsonTest::testParse() {
     // TODO: NaN?
 }
 
+void JsonTest::testParseMulti() {
+    string in =
+        "{\"null\": null, \"double\": -5e-1, \"int\": 1, \"string\": "
+        "\"\\\\\\\"\\b\\f\\n\\r\\t\", \"array\": [null, null]} "
+        "{\"1\": 1, \"5\": 5}";
+    string::size_type pos = 0;
+    string err;
+    vector<Json> parsedMultiJson = Json::parse_multi(in, err, json11::STANDARD);
+    CPPUNIT_ASSERT(parsedMultiJson.size() == 2);
+    CPPUNIT_ASSERT(parsedMultiJson[0] == (*this->objJson1));
+    CPPUNIT_ASSERT(parsedMultiJson[1] == (*this->objJson2));
+}
+
 void JsonTest::testFailedParse() {
     string err = "";
     const char* nullIn = nullptr;
