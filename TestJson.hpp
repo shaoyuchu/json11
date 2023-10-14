@@ -21,6 +21,7 @@ class JsonTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testObject);
     CPPUNIT_TEST(testParse);
     CPPUNIT_TEST(testFailedParse);
+    CPPUNIT_TEST(testCrossTypeComparison);
     CPPUNIT_TEST_SUITE_END();
 
    public:
@@ -35,6 +36,7 @@ class JsonTest : public CPPUNIT_NS::TestFixture {
     void testObject();
     void testParse();
     void testFailedParse();
+    void testCrossTypeComparison();
     void tearDown();
 
    private:

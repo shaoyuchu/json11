@@ -50,6 +50,9 @@ void JsonTest::testNull() {
     CPPUNIT_ASSERT((*this->nullJson1)[0] == Json());
     CPPUNIT_ASSERT((*this->nullJson1)["key"] == Json());
     CPPUNIT_ASSERT(this->nullJson1->dump() == "null");
+    CPPUNIT_ASSERT((*this->nullJson1) == (*this->nullJson2));
+    CPPUNIT_ASSERT((*this->nullJson1) <= (*this->nullJson2));
+    CPPUNIT_ASSERT((*this->nullJson1) >= (*this->nullJson2));
 }
 
 void JsonTest::testDoubleNumber() {
@@ -63,6 +66,7 @@ void JsonTest::testDoubleNumber() {
     CPPUNIT_ASSERT((*this->doubleJson05)[0] == Json());
     CPPUNIT_ASSERT((*this->doubleJson05)["key"] == Json());
     CPPUNIT_ASSERT(this->doubleJson05->dump() == "0.5");
+    CPPUNIT_ASSERT((*this->doubleJsonNeg05) < (*this->doubleJsonInf));
 
     CPPUNIT_ASSERT(this->doubleJsonInf->dump() == "null");
 }
@@ -78,6 +82,7 @@ void JsonTest::testIntNumber() {
     CPPUNIT_ASSERT((*this->intJson1)[0] == Json());
     CPPUNIT_ASSERT((*this->intJson1)["key"] == Json());
     CPPUNIT_ASSERT(this->intJson1->dump() == "1");
+    CPPUNIT_ASSERT((*this->intJson1) <= (*this->intJson5));
 }
 
 void JsonTest::testBool() {
@@ -91,6 +96,7 @@ void JsonTest::testBool() {
     CPPUNIT_ASSERT((*this->boolJson0)[0] == Json());
     CPPUNIT_ASSERT((*this->boolJson0)["key"] == Json());
     CPPUNIT_ASSERT(this->boolJson0->dump() == "false");
+    CPPUNIT_ASSERT((*this->boolJson0) < (*this->boolJson1));
 }
 
 void JsonTest::testString() {
@@ -154,6 +160,10 @@ void JsonTest::testFailedParse() {
     const char* nullIn = nullptr;
     CPPUNIT_ASSERT(Json::parse(nullIn, err) == nullptr);
     CPPUNIT_ASSERT(err == "null input");
+}
+
+void JsonTest::testCrossTypeComparison() {
+    CPPUNIT_ASSERT((*this->boolJson0) < (*this->intJson1));
 }
 
 void JsonTest::tearDown() {
