@@ -14,7 +14,7 @@ void JsonTest::setUp() {
     this->nullJson2 = new Json(nullptr);
     this->doubleJson05 = new Json(0.5);
     this->doubleJson25 = new Json(2.5);
-    this->doubleJsonNeg05 = new Json(-0.5);
+    this->doubleJsonNeg025 = new Json(-0.25);
     this->doubleJsonInf = new Json(INFINITY);
     this->intJson1 = new Json(1);
     this->intJson5 = new Json(5);
@@ -30,7 +30,7 @@ void JsonTest::setUp() {
                                             *(this->intJson1), *(this->intJson5)}));
 
     map<string, Json> obj = {
-        {"null", *(this->nullJson1)}, {"double", *(this->doubleJsonNeg05)},
+        {"null", *(this->nullJson1)}, {"double", *(this->doubleJsonNeg025)},
         {"int", *(this->intJson1)},   {"string", *(this->strJson1)},
         {"array", *(this->arrJson1)},
     };
@@ -70,7 +70,7 @@ void JsonTest::testDoubleNumber() {
     CPPUNIT_ASSERT((*this->doubleJson05)[0] == Json());
     CPPUNIT_ASSERT((*this->doubleJson05)["key"] == Json());
     CPPUNIT_ASSERT(this->doubleJson05->dump() == "0.5");
-    CPPUNIT_ASSERT((*this->doubleJsonNeg05) < (*this->doubleJsonInf));
+    CPPUNIT_ASSERT((*this->doubleJsonNeg025) < (*this->doubleJsonInf));
 
     CPPUNIT_ASSERT(this->doubleJsonInf->dump() == "null");
 }
@@ -154,7 +154,7 @@ void JsonTest::testParse() {
         "/*\n"
         "multi-line comment\n"
         "*/\n"
-        "\"null\": null, \"double\": -5e-1, \"int\": 1, \"string\": "
+        "\"null\": null, \"double\": -2.5e-1, \"int\": 1, \"string\": "
         "\"\\\\\\\"\\b\\f\\n\\r\\t\", \"array\": [null, null]\n"
         "}";
     string err = "";
@@ -165,13 +165,15 @@ void JsonTest::testParse() {
 
 void JsonTest::testParseMulti() {
     string in =
-        "{\"null\": null, \"double\": -5e-1, \"int\": 1, \"string\": "
+        "{\"null\": null, \"double\": -2.5e-1, \"int\": 1, \"string\": "
         "\"\\\\\\\"\\b\\f\\n\\r\\t\", \"array\": [null, null]} "
-        "{\"1\": 1, \"5\": 5}";
+        "{\"1\": 1, \"5\": 5} "
+        "{\"true\": true, \"false\": false} "
+        "{}";
     string::size_type pos = 0;
     string err;
     vector<Json> parsedMultiJson = Json::parse_multi(in, err, json11::STANDARD);
-    CPPUNIT_ASSERT(parsedMultiJson.size() == 2);
+    CPPUNIT_ASSERT(parsedMultiJson.size() == 4);
     CPPUNIT_ASSERT(parsedMultiJson[0] == (*this->objJson1));
     CPPUNIT_ASSERT(parsedMultiJson[1] == (*this->objJson2));
 }
@@ -184,6 +186,7 @@ void JsonTest::testFailedParse() {
 }
 
 void JsonTest::testCrossTypeComparison() {
+    CPPUNIT_ASSERT(!((*this->intJson1) == (*this->objJson1)));
     CPPUNIT_ASSERT((*this->boolJson0) < (*this->intJson1));
 }
 
@@ -197,7 +200,7 @@ void JsonTest::tearDown() {
     delete this->nullJson2;
     delete this->doubleJson05;
     delete this->doubleJson25;
-    delete this->doubleJsonNeg05;
+    delete this->doubleJsonNeg025;
     delete this->doubleJsonInf;
     delete this->intJson1;
     delete this->intJson5;

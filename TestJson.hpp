@@ -48,7 +48,7 @@ class JsonTest : public CPPUNIT_NS::TestFixture {
     Json* nullJson2;
     Json* doubleJson05;
     Json* doubleJson25;
-    Json* doubleJsonNeg05;
+    Json* doubleJsonNeg025;
     Json* doubleJsonInf;
     Json* intJson1;
     Json* intJson5;
