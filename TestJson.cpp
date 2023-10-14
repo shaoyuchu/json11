@@ -14,6 +14,7 @@ void JsonTest::setUp() {
     this->nullJson2 = new Json(nullptr);
     this->doubleJson05 = new Json(0.5);
     this->doubleJson25 = new Json(2.5);
+    this->doubleJsonNeg05 = new Json(-0.5);
     this->doubleJsonInf = new Json(INFINITY);
     this->intJson1 = new Json(1);
     this->intJson5 = new Json(5);
@@ -29,7 +30,7 @@ void JsonTest::setUp() {
                                             *(this->intJson1), *(this->intJson5)}));
 
     map<string, Json> obj = {
-        {"null", *(this->nullJson1)}, {"double", *(this->doubleJson25)},
+        {"null", *(this->nullJson1)}, {"double", *(this->doubleJsonNeg05)},
         {"int", *(this->intJson1)},   {"string", *(this->strJson1)},
         {"array", *(this->arrJson1)},
     };
@@ -136,12 +137,16 @@ void JsonTest::testParse() {
     string inStr =
         "{\n"
         "// comments\n"
-        "\"null\": null, \"double\": 2.5, \"int\": 1, \"string\": "
+        "/*\n"
+        "multi-line comment\n"
+        "*/\n"
+        "\"null\": null, \"double\": -5e-1, \"int\": 1, \"string\": "
         "\"\\\\\\\"\\b\\f\\n\\r\\t\", \"array\": [null, null]\n"
         "}";
     string err = "";
     const char* in = inStr.c_str();
     CPPUNIT_ASSERT(Json::parse(in, err, json11::COMMENTS) == *(this->objJson1));
+    // TODO: NaN?
 }
 
 void JsonTest::testFailedParse() {
@@ -161,6 +166,7 @@ void JsonTest::tearDown() {
     delete this->nullJson2;
     delete this->doubleJson05;
     delete this->doubleJson25;
+    delete this->doubleJsonNeg05;
     delete this->doubleJsonInf;
     delete this->intJson1;
     delete this->intJson5;
