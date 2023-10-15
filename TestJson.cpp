@@ -102,6 +102,8 @@ void JsonTest::testBool() {
     CPPUNIT_ASSERT((*this->boolJson0)["key"] == Json());
     CPPUNIT_ASSERT(this->boolJson0->dump() == "false");
     CPPUNIT_ASSERT((*this->boolJson0) < (*this->boolJson1));
+
+    CPPUNIT_ASSERT(this->boolJson1->number_value() == 1);
 }
 
 void JsonTest::testString() {
