@@ -190,6 +190,8 @@ public:
 
 class JsonBoolean final : public Value<Json::BOOL, bool> {
     bool bool_value() const override { return m_value; }
+    double number_value() const override { return static_cast<double>(m_value); }
+    int int_value() const override { return static_cast<int>(m_value); }
 public:
     explicit JsonBoolean(bool value) : Value(value) {}
 };
@@ -311,6 +313,12 @@ bool Json::operator== (const Json &other) const {
 bool Json::operator< (const Json &other) const {
     if (m_ptr == other.m_ptr)
         return false;
+
+    if ((m_ptr->type() == NUMBER || m_ptr->type() == BOOL) && 
+        (other.m_ptr->type() == NUMBER || other.m_ptr->type() == BOOL)) {
+        return this->number_value() < other.number_value();
+    }
+
     if (m_ptr->type() != other.m_ptr->type())
         return m_ptr->type() < other.m_ptr->type();
 
